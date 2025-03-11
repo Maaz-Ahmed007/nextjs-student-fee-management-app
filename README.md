@@ -2,6 +2,10 @@
 
 A comprehensive, open-source solution for educational institutions to manage student fees efficiently and effectively.
 
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8)
+
 ## Overview
 
 The Student Fee Management System is designed to help educational institutions streamline their fee collection and management processes. It provides a user-friendly interface for accountants and administrators to manage student records, track fee payments, and generate reports.
