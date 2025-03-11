@@ -1,10 +1,10 @@
 # Student Fee Management System
-
-A comprehensive, open-source solution for educational institutions to manage student fees efficiently and effectively.
-
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8)
+
+A comprehensive, open-source solution for educational institutions to manage student fees efficiently and effectively.
+
 
 ## Overview
 
