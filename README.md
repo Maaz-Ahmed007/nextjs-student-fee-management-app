@@ -129,36 +129,34 @@ Managing student fees manually can be error-prone and time-consuming. This syste
 
 3. Set up environment variables
 
-````
+  ```bash
+  cp .env.example .env.local
+  ```
 
-cp .env.example .env.local
-
-```plaintext
 Then edit `.env.local` with your database credentials and other configuration.
 
 4. Run database migrations
-````
 
-npx prisma migrate dev
-
-```plaintext
+  ```bash
+  npx prisma migrate dev
+  ```
 
 5. Start the development server
-```
 
+```bash
 npm run dev
 
 # or
 
 yarn dev
 
-```plaintext
+```
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Project Structure
 
-```
+```bash
 
 /app # Next.js App Router
 /dashboard # Dashboard page
@@ -180,7 +178,7 @@ yarn dev
 /prisma # Database schema and migrations
 /public # Static assets
 
-````plaintext
+```
 
 ## Implementation Details
 
