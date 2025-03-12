@@ -306,7 +306,7 @@ export default function SettingsPage() {
 														System Preference
 													</Label>
 													<p className="text-sm text-muted-foreground">
-														Follow your system's
+														Follow your system&apos;s
 														theme preference
 													</p>
 												</div>

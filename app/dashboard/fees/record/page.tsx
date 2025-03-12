@@ -23,10 +23,19 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+type student = {
+    id: string,
+    name: string,
+    regNumber: string,
+    department: string,
+    session: string,
+    outstandingDues: number
+}
+
 export default function RecordPaymentPage() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
-	const [studentDetails, setStudentDetails] = useState<any>(null);
+	const [studentDetails, setStudentDetails] = useState<student | null>(null);
 
 	// Mock function to simulate fetching student details
 	const handleStudentSelect = (value: string) => {
