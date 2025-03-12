@@ -75,7 +75,7 @@ export default function DashboardLayout({ children }: Props) {
 
 	return (
 		<SidebarProvider>
-			<div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+			<div className="flex min-h-screen w-full bg-gray-100 dark:bg-gray-900">
 				<Sidebar>
 					<SidebarHeader className="flex h-14 items-center border-b px-6">
 						<Link
@@ -138,7 +138,9 @@ export default function DashboardLayout({ children }: Props) {
 							</div>
 						</div>
 					</header>
-					<main className="flex-1 overflow-auto w-full p-6">{children}</main>
+					<main className="flex-1 w-full overflow-auto p-6">
+						{children}
+					</main>
 				</div>
 			</div>
 		</SidebarProvider>

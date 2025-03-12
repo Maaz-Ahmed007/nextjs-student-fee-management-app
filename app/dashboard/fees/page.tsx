@@ -222,8 +222,8 @@ export default function FeesPage() {
 								View and manage all fee payments in the system.
 							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="flex flex-col gap-6">
+						<CardContent className="w-full">
+							<div className="flex flex-col gap-6 w-full">
 								<div className="flex flex-col gap-4 md:flex-row md:items-center">
 									<div className="flex items-center gap-2 flex-1">
 										<Search className="h-4 w-4 text-muted-foreground" />

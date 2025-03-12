@@ -19,11 +19,15 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+interface StudentDetailsPageProps {
+	params: {
+		id: string;
+	};
+}
+
 export default function StudentDetailsPage({
 	params,
-}: {
-	params: { id: string };
-}) {
+}: StudentDetailsPageProps) {
 	// Mock student data
 	const student = {
 		id: params.id,

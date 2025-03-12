@@ -92,8 +92,8 @@ export default function SessionsPage() {
 						institution.
 					</CardDescription>
 				</CardHeader>
-				<CardContent>
-					<div className="flex flex-col gap-6">
+				<CardContent className="w-full">
+					<div className="flex flex-col gap-6 w-full">
 						<div className="flex items-center gap-2">
 							<Search className="h-4 w-4 text-muted-foreground" />
 							<Input

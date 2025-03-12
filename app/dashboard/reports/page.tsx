@@ -49,8 +49,8 @@ export default function ReportsPage() {
 								time period.
 							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="flex flex-col gap-6">
+						<CardContent className="w-full">
+							<div className="flex flex-col gap-6 w-full">
 								<div className="flex flex-col gap-4 md:flex-row md:items-center">
 									<div className="flex items-center gap-2">
 										<Filter className="h-4 w-4 text-muted-foreground" />
@@ -174,8 +174,8 @@ export default function ReportsPage() {
 								View students with outstanding fee payments.
 							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="flex flex-col gap-6">
+						<CardContent className="w-full">
+							<div className="flex flex-col gap-6 w-full">
 								<div className="flex flex-col gap-4 md:flex-row md:items-center">
 									<div className="flex items-center gap-2">
 										<Filter className="h-4 w-4 text-muted-foreground" />
@@ -280,8 +280,8 @@ export default function ReportsPage() {
 								departments.
 							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="flex flex-col gap-6">
+						<CardContent className="w-full">
+							<div className="flex flex-col gap-6 w-full">
 								<div className="flex flex-col gap-4 md:flex-row md:items-center">
 									<div className="flex items-center gap-2">
 										<Filter className="h-4 w-4 text-muted-foreground" />
@@ -383,8 +383,8 @@ export default function ReportsPage() {
 								sessions.
 							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="flex flex-col gap-6">
+						<CardContent className="w-full">
+							<div className="flex flex-col gap-6 w-full">
 								<div className="flex flex-col gap-4 md:flex-row md:items-center">
 									<div className="flex items-center gap-2">
 										<Filter className="h-4 w-4 text-muted-foreground" />

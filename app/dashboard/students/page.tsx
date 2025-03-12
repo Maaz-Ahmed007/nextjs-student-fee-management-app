@@ -128,7 +128,7 @@ export default function StudentsPage() {
 				<Button className="gap-2 bg-blue-500 hover:bg-blue-600" asChild>
 					<Link href="/dashboard/students/new">
 						<PlusCircle className="h-4 w-4" />
-						<span>Add Students</span>
+						<span>Add Student</span>
 					</Link>
 				</Button>
 			</div>
@@ -140,8 +140,8 @@ export default function StudentsPage() {
 						View, filter, and manage all students in the system.
 					</CardDescription>
 				</CardHeader>
-				<CardContent>
-					<div className="flex flex-col gap-6">
+				<CardContent className="w-full">
+					<div className="flex flex-col gap-6 w-full">
 						<div className="flex flex-col gap-4 md:flex-row md:items-center">
 							<div className="flex items-center gap-2 flex-1">
 								<Search className="h-4 w-4 text-muted-foreground" />
