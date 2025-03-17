@@ -81,8 +81,8 @@ export default function DashboardLayout({ children }: Props) {
 						<Link
 							href="/dashboard"
 							className="flex items-center gap-2 font-bold">
-							<Wallet className="h-5 w-5 text-blue-500" />
-							<span className="text-lg">FeeTrak</span>
+							<Wallet className="h-6 w-6 text-blue-500" />
+							<span className="text-2xl">FeeTrak</span>
 						</Link>
 					</SidebarHeader>
 					<SidebarContent>
@@ -93,7 +93,7 @@ export default function DashboardLayout({ children }: Props) {
 										asChild
 										isActive={pathname === route.href}
 										className={cn(
-											"flex w-full items-center gap-2",
+											"flex w-full items-center gap-2 text-base",
 											pathname === route.href &&
 												"bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
 										)}>

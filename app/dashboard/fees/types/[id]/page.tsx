@@ -21,16 +21,11 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { useParams } from "next/navigation";
 
-interface FeeTypeDetailsPageProps {
-	params: {
-		id: string;
-	};
-}
-
-export default function FeeTypeDetailsPage({
-	params,
-}: FeeTypeDetailsPageProps) {
+export default function FeeTypeDetailsPage() {
+	const params = useParams<{ id: string }>();
+	
 	// Mock fee type data
 	const feeType = {
 		id: params.id,

@@ -17,16 +17,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { useParams } from "next/navigation";
 
-interface DepartmentDetailsPageProps {
-	params: {
-		id: string;
-	};
-}
+export default function DepartmentDetailsPage() {
+	const params = useParams<{ id: string }>();
 
-export default function DepartmentDetailsPage({
-	params,
-}: DepartmentDetailsPageProps) {
 	// Mock department data
 	const department = {
 		id: params.id,

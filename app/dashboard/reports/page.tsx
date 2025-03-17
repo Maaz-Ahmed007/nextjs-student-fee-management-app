@@ -1,4 +1,7 @@
-import { Download, FileText, Filter } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Download, Filter } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +19,68 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import {
+	BarChart,
+	PieChart,
+	Bar,
+	Pie,
+	ResponsiveContainer,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	Cell,
+} from "recharts";
 
 export default function ReportsPage() {
+	const [selectedReport, setSelectedReport] = useState("collection");
+
+	// Mock data for charts
+	const collectionData = [
+		{ month: "Jan", amount: 45000 },
+		{ month: "Feb", amount: 52000 },
+		{ month: "Mar", amount: 48000 },
+		{ month: "Apr", amount: 61000 },
+		{ month: "May", amount: 55000 },
+		{ month: "Jun", amount: 67000 },
+		{ month: "Jul", amount: 72000 },
+		{ month: "Aug", amount: 80000 },
+		{ month: "Sep", amount: 67000 },
+		{ month: "Oct", amount: 54000 },
+		{ month: "Nov", amount: 48000 },
+		{ month: "Dec", amount: 58000 },
+	];
+
+	const departmentData = [
+		{ name: "Computer Science", value: 92000 },
+		{ name: "Electrical Engineering", value: 84000 },
+		{ name: "Business Administration", value: 76000 },
+		{ name: "Mechanical Engineering", value: 68000 },
+		{ name: "Social Sciences", value: 62000 },
+	];
+
+	const sessionData = [
+		{ name: "2020-2024", paid: 92000, outstanding: 8000 },
+		{ name: "2021-2025", paid: 84000, outstanding: 16000 },
+		{ name: "2022-2026", paid: 76000, outstanding: 24000 },
+		{ name: "2023-2027", paid: 68000, outstanding: 32000 },
+	];
+
+	const outstandingData = [
+		{ department: "CS", students: 45, amount: 22500 },
+		{ department: "EE", students: 38, amount: 19000 },
+		{ department: "BA", students: 65, amount: 32500 },
+		{ department: "ME", students: 52, amount: 26000 },
+		{ department: "SS", students: 45, amount: 22500 },
+	];
+
+	const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
+
+	const generateReport = () => {
+		setSelectedReport(selectedReport);
+	};
+
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="flex items-center justify-between">
@@ -28,7 +91,7 @@ export default function ReportsPage() {
 				</Button>
 			</div>
 
-			<Tabs defaultValue="collection">
+			<Tabs defaultValue="collection" onValueChange={setSelectedReport}>
 				<TabsList className="grid w-full grid-cols-4">
 					<TabsTrigger value="collection">Fee Collection</TabsTrigger>
 					<TabsTrigger value="outstanding">
@@ -148,18 +211,45 @@ export default function ReportsPage() {
 											</SelectContent>
 										</Select>
 									</div>
-									<Button className="ml-auto bg-blue-500 hover:bg-blue-600">
+									<Button
+										className="ml-auto bg-blue-500 hover:bg-blue-600"
+										onClick={generateReport}>
 										Generate Report
 									</Button>
 								</div>
 
-								<div className="h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-md">
-									<div className="text-center">
-										<FileText className="h-12 w-12 mx-auto text-muted-foreground" />
-										<p className="mt-2 text-muted-foreground">
-											Select filters and generate report
-										</p>
-									</div>
+								<div className="h-[400px]">
+									<ResponsiveContainer
+										width="100%"
+										height="100%">
+										<BarChart data={collectionData}>
+											<CartesianGrid strokeDasharray="3 3" />
+											<XAxis dataKey="month" />
+											<YAxis />
+											<Tooltip
+												formatter={(value) => [
+													`$${value}`,
+													"Amount",
+												]}
+												contentStyle={{
+													backgroundColor:
+														"var(--background)",
+													borderColor:
+														"var(--border)",
+													borderRadius: "0.5rem",
+													boxShadow:
+														"0 4px 12px rgba(0, 0, 0, 0.1)",
+												}}
+											/>
+											<Legend />
+											<Bar
+												dataKey="amount"
+												fill="var(--primary)"
+												radius={[4, 4, 0, 0]}
+												name="Amount Collected"
+											/>
+										</BarChart>
+									</ResponsiveContainer>
 								</div>
 							</div>
 						</CardContent>
@@ -251,18 +341,56 @@ export default function ReportsPage() {
 											</SelectContent>
 										</Select>
 									</div>
-									<Button className="ml-auto bg-blue-500 hover:bg-blue-600">
+									<Button
+										className="ml-auto bg-blue-500 hover:bg-blue-600"
+										onClick={generateReport}>
 										Generate Report
 									</Button>
 								</div>
 
-								<div className="h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-md">
-									<div className="text-center">
-										<FileText className="h-12 w-12 mx-auto text-muted-foreground" />
-										<p className="mt-2 text-muted-foreground">
-											Select filters and generate report
-										</p>
-									</div>
+								<div className="h-[400px]">
+									<ResponsiveContainer
+										width="100%"
+										height="100%">
+										<BarChart data={outstandingData}>
+											<CartesianGrid strokeDasharray="3 3" />
+											<XAxis dataKey="department" />
+											<YAxis
+												yAxisId="left"
+												orientation="left"
+												stroke="#8884d8"
+											/>
+											<YAxis
+												yAxisId="right"
+												orientation="right"
+												stroke="#82ca9d"
+											/>
+											<Tooltip
+												contentStyle={{
+													backgroundColor:
+														"var(--background)",
+													borderColor:
+														"var(--border)",
+													borderRadius: "0.5rem",
+													boxShadow:
+														"0 4px 12px rgba(0, 0, 0, 0.1)",
+												}}
+											/>
+											<Legend />
+											<Bar
+												yAxisId="left"
+												dataKey="students"
+												fill="#8884d8"
+												name="Students with Dues"
+											/>
+											<Bar
+												yAxisId="right"
+												dataKey="amount"
+												fill="#82ca9d"
+												name="Outstanding Amount ($)"
+											/>
+										</BarChart>
+									</ResponsiveContainer>
 								</div>
 							</div>
 						</CardContent>
@@ -354,18 +482,63 @@ export default function ReportsPage() {
 											</SelectContent>
 										</Select>
 									</div>
-									<Button className="ml-auto bg-blue-500 hover:bg-blue-600">
+									<Button
+										className="ml-auto bg-blue-500 hover:bg-blue-600"
+										onClick={generateReport}>
 										Generate Report
 									</Button>
 								</div>
 
-								<div className="h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-md">
-									<div className="text-center">
-										<FileText className="h-12 w-12 mx-auto text-muted-foreground" />
-										<p className="mt-2 text-muted-foreground">
-											Select filters and generate report
-										</p>
-									</div>
+								<div className="h-[400px]">
+									<ResponsiveContainer
+										width="100%"
+										height="100%">
+										<PieChart>
+											<Pie
+												data={departmentData}
+												cx="50%"
+												cy="50%"
+												labelLine={true}
+												label={({ name, percent }) =>
+													`${name}: ${(
+														percent * 100
+													).toFixed(0)}%`
+												}
+												outerRadius={150}
+												fill="#8884d8"
+												dataKey="value">
+												{departmentData.map(
+													(entry, index) => (
+														<Cell
+															key={`cell-${index}`}
+															fill={
+																COLORS[
+																	index %
+																		COLORS.length
+																]
+															}
+														/>
+													)
+												)}
+											</Pie>
+											<Tooltip
+												formatter={(value) => [
+													`$${value}`,
+													"Amount",
+												]}
+												contentStyle={{
+													backgroundColor:
+														"var(--background)",
+													borderColor:
+														"var(--border)",
+													borderRadius: "0.5rem",
+													boxShadow:
+														"0 4px 12px rgba(0, 0, 0, 0.1)",
+												}}
+											/>
+											<Legend />
+										</PieChart>
+									</ResponsiveContainer>
 								</div>
 							</div>
 						</CardContent>
@@ -463,18 +636,51 @@ export default function ReportsPage() {
 											</SelectContent>
 										</Select>
 									</div>
-									<Button className="ml-auto bg-blue-500 hover:bg-blue-600">
+									<Button
+										className="ml-auto bg-blue-500 hover:bg-blue-600"
+										onClick={generateReport}>
 										Generate Report
 									</Button>
 								</div>
 
-								<div className="h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-md">
-									<div className="text-center">
-										<FileText className="h-12 w-12 mx-auto text-muted-foreground" />
-										<p className="mt-2 text-muted-foreground">
-											Select filters and generate report
-										</p>
-									</div>
+								<div className="h-[400px]">
+									<ResponsiveContainer
+										width="100%"
+										height="100%">
+										<BarChart data={sessionData}>
+											<CartesianGrid strokeDasharray="3 3" />
+											<XAxis dataKey="name" />
+											<YAxis />
+											<Tooltip
+												formatter={(value) => [
+													`$${value}`,
+													"Amount",
+												]}
+												contentStyle={{
+													backgroundColor:
+														"var(--background)",
+													borderColor:
+														"var(--border)",
+													borderRadius: "0.5rem",
+													boxShadow:
+														"0 4px 12px rgba(0, 0, 0, 0.1)",
+												}}
+											/>
+											<Legend />
+											<Bar
+												dataKey="paid"
+												stackId="a"
+												fill="#4CAF50"
+												name="Paid"
+											/>
+											<Bar
+												dataKey="outstanding"
+												stackId="a"
+												fill="#FF5722"
+												name="Outstanding"
+											/>
+										</BarChart>
+									</ResponsiveContainer>
 								</div>
 							</div>
 						</CardContent>

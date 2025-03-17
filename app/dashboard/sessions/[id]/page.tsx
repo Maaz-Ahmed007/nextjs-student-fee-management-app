@@ -17,16 +17,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { useParams } from "next/navigation";
 
-interface SessionDetailsPageProps {
-	params: {
-		id: string;
-	};
-}
-
-export default function SessionDetailsPage({
-	params,
-}: SessionDetailsPageProps) {
+export default function SessionDetailsPage() {
+	const params = useParams<{ id: string }>();
+	
 	// Mock session data
 	const session = {
 		id: params.id,

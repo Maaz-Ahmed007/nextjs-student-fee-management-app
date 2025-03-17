@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
 	ArrowRight,
@@ -18,22 +21,87 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+	BarChart,
+	ResponsiveContainer,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Bar,
+} from "recharts";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 
+// Update the component to filter for active students only
 export default function DashboardPage() {
+	// Mock data for charts with active student filter applied
+	const monthlyFeeData = [
+		{ name: "Jan", amount: 45000 },
+		{ name: "Feb", amount: 52000 },
+		{ name: "Mar", amount: 48000 },
+		{ name: "Apr", amount: 61000 },
+		{ name: "May", amount: 55000 },
+		{ name: "Jun", amount: 67000 },
+		{ name: "Jul", amount: 72000 },
+		{ name: "Aug", amount: 80000 },
+		{ name: "Sep", amount: 67000 },
+		{ name: "Oct", amount: 54000 },
+		{ name: "Nov", amount: 48000 },
+		{ name: "Dec", amount: 58000 },
+	];
+
+	const departmentData = [
+		{ name: "Computer Science", collected: 92, total: 100 },
+		{ name: "Electrical Engineering", collected: 84, total: 100 },
+		{ name: "Business Administration", collected: 76, total: 100 },
+		{ name: "Mechanical Engineering", collected: 68, total: 100 },
+		{ name: "Social Sciences", collected: 62, total: 100 },
+	];
+
+	// Add state for active student filter
+	const [showActiveOnly, setShowActiveOnly] = useState(true);
+
+	// Filter data for active students only
+	const activeStudentCount = 1048; // Reduced from total 1,248
+	const activeStudentIncrease = 150; // Changed from 180
+	const activeTotalCollected = 487890; // Reduced from 567,890
+	const activeOutstandingDues = 98765; // Reduced from 123,456
+	const activeStudentsWithDues = 198; // Reduced from 245
+
 	return (
 		<div className="w-full">
 			<div className="flex flex-col gap-6">
 				<div className="flex items-center justify-between">
 					<h1 className="text-2xl font-bold">Dashboard</h1>
-					<div className="flex items-center gap-2">
-						<Button variant="outline" className="gap-2">
-							<Users className="h-4 w-4" />
-							<span>Add Student</span>
-						</Button>
-						<Button className="gap-2 bg-blue-500 hover:bg-blue-600">
-							<Wallet className="h-4 w-4" />
-							<span>Record Payment</span>
-						</Button>
+					<div className="flex items-center gap-4">
+						<div className="flex items-center gap-2">
+							<Switch
+								id="active-filter"
+								checked={showActiveOnly}
+								onCheckedChange={setShowActiveOnly}
+							/>
+							<Label htmlFor="active-filter">
+								Show active students only
+							</Label>
+						</div>
+						<div className="flex items-center gap-2">
+							<Button variant="outline" className="gap-2" asChild>
+								<Link href="/dashboard/students/new">
+									<Users className="h-4 w-4" />
+									<span>Add Student</span>
+								</Link>
+							</Button>
+							<Button
+								className="gap-2 bg-blue-500 hover:bg-blue-600"
+								asChild>
+								<Link href="/dashboard/fees/record">
+									<Wallet className="h-4 w-4" />
+									<span>Record Payment</span>
+								</Link>
+							</Button>
+						</div>
 					</div>
 				</div>
 
@@ -41,14 +109,16 @@ export default function DashboardPage() {
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between pb-2">
 							<CardTitle className="text-sm font-medium">
-								Total Students
+								Active Students
 							</CardTitle>
 							<Users className="h-4 w-4 text-muted-foreground" />
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">1,248</div>
+							<div className="text-2xl font-bold">
+								{activeStudentCount}
+							</div>
 							<p className="text-xs text-muted-foreground">
-								+180 from last semester
+								+{activeStudentIncrease} from last semester
 							</p>
 						</CardContent>
 					</Card>
@@ -60,7 +130,9 @@ export default function DashboardPage() {
 							<DollarSign className="h-4 w-4 text-muted-foreground" />
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">$567,890</div>
+							<div className="text-2xl font-bold">
+								${activeTotalCollected.toLocaleString()}
+							</div>
 							<p className="text-xs text-muted-foreground">
 								+12.5% from last month
 							</p>
@@ -74,9 +146,11 @@ export default function DashboardPage() {
 							<Wallet className="h-4 w-4 text-muted-foreground" />
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">$123,456</div>
+							<div className="text-2xl font-bold">
+								${activeOutstandingDues.toLocaleString()}
+							</div>
 							<p className="text-xs text-muted-foreground">
-								245 students with dues
+								{activeStudentsWithDues} students with dues
 							</p>
 						</CardContent>
 					</Card>
@@ -99,82 +173,91 @@ export default function DashboardPage() {
 				<div className="grid gap-6 md:grid-cols-7">
 					<Card className="md:col-span-4">
 						<CardHeader>
-							<CardTitle>Fee Collection Overview</CardTitle>
-							<CardDescription>
-								Monthly fee collection for the current year
-							</CardDescription>
+							<div className="flex items-center justify-between">
+								<div>
+									<CardTitle>
+										Fee Collection Overview
+									</CardTitle>
+									<CardDescription>
+										{showActiveOnly
+											? "Monthly fee collection for active students"
+											: "Monthly fee collection for all students"}
+									</CardDescription>
+								</div>
+								<Badge variant="outline" className="ml-2">
+									{showActiveOnly
+										? "Active Students"
+										: "All Students"}
+								</Badge>
+							</div>
 						</CardHeader>
 						<CardContent>
-							<div className="h-[300px] flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-md">
-								<p className="text-sm text-muted-foreground">
-									Chart will be implemented here
-								</p>
+							<div className="h-[300px]">
+								<ResponsiveContainer width="100%" height="100%">
+									<BarChart data={monthlyFeeData}>
+										<CartesianGrid strokeDasharray="3 3" />
+										<XAxis dataKey="name" />
+										<YAxis />
+										<Tooltip
+											formatter={(value) => [
+												`$${value}`,
+												"Amount",
+											]}
+											contentStyle={{
+												backgroundColor:
+													"var(--background)",
+												borderColor: "var(--border)",
+												borderRadius: "0.5rem",
+												boxShadow:
+													"0 4px 12px rgba(0, 0, 0, 0.1)",
+											}}
+										/>
+										<Bar
+											dataKey="amount"
+											fill="var(--primary)"
+											radius={[4, 4, 0, 0]}
+											name="Amount Collected"
+										/>
+									</BarChart>
+								</ResponsiveContainer>
 							</div>
 						</CardContent>
 					</Card>
 					<Card className="md:col-span-3">
 						<CardHeader>
-							<CardTitle>Collection by Department</CardTitle>
-							<CardDescription>
-								Fee collection percentage by department
-							</CardDescription>
+							<div className="flex items-center justify-between">
+								<div>
+									<CardTitle>
+										Collection by Department
+									</CardTitle>
+									<CardDescription>
+										Fee collection percentage by department
+									</CardDescription>
+								</div>
+								<Badge variant="outline" className="ml-2">
+									{showActiveOnly
+										? "Active Students"
+										: "All Students"}
+								</Badge>
+							</div>
 						</CardHeader>
 						<CardContent className="space-y-4">
-							<div className="space-y-2">
-								<div className="flex items-center justify-between">
-									<span className="text-sm">
-										Computer Science
-									</span>
-									<span className="text-sm font-medium">
-										92%
-									</span>
+							{departmentData.map((dept) => (
+								<div key={dept.name} className="space-y-2">
+									<div className="flex items-center justify-between">
+										<span className="text-sm">
+											{dept.name}
+										</span>
+										<span className="text-sm font-medium">
+											{dept.collected}%
+										</span>
+									</div>
+									<Progress
+										value={dept.collected}
+										className="h-2"
+									/>
 								</div>
-								<Progress value={92} className="h-2" />
-							</div>
-							<div className="space-y-2">
-								<div className="flex items-center justify-between">
-									<span className="text-sm">
-										Electrical Engineering
-									</span>
-									<span className="text-sm font-medium">
-										84%
-									</span>
-								</div>
-								<Progress value={84} className="h-2" />
-							</div>
-							<div className="space-y-2">
-								<div className="flex items-center justify-between">
-									<span className="text-sm">
-										Business Administration
-									</span>
-									<span className="text-sm font-medium">
-										76%
-									</span>
-								</div>
-								<Progress value={76} className="h-2" />
-							</div>
-							<div className="space-y-2">
-								<div className="flex items-center justify-between">
-									<span className="text-sm">
-										Mechanical Engineering
-									</span>
-									<span className="text-sm font-medium">
-										68%
-									</span>
-								</div>
-								<Progress value={68} className="h-2" />
-							</div>
-							<div className="space-y-2">
-								<div className="flex items-center justify-between">
-									<span className="text-sm">
-										Social Sciences
-									</span>
-									<span className="text-sm font-medium">
-										62%
-									</span>
-								</div>
-								<Progress value={62} className="h-2" />
-							</div>
+							))}
 						</CardContent>
 					</Card>
 				</div>
@@ -185,7 +268,7 @@ export default function DashboardPage() {
 							<div>
 								<CardTitle>Recent Payments</CardTitle>
 								<CardDescription>
-									Latest fee payments received
+									Latest fee payments from active students
 								</CardDescription>
 							</div>
 							<Button
@@ -251,8 +334,9 @@ export default function DashboardPage() {
 									</TabsList>
 								</div>
 								<CardDescription>
-									Students with outstanding dues and recently
-									added
+									{showActiveOnly
+										? "Active students with outstanding dues and recently added"
+										: "Students with outstanding dues and recently added"}
 								</CardDescription>
 							</Tabs>
 						</CardHeader>

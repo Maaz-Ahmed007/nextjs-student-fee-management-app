@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
@@ -28,9 +28,16 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function NewStudentPage() {
+interface EditStudentPageProps {
+	params: {
+		id: string;
+	};
+}
+
+export default function EditStudentPage({ params }: EditStudentPageProps) {
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	// Form state
 	const [formData, setFormData] = useState({
@@ -41,7 +48,7 @@ export default function NewStudentPage() {
 		cnicNo: "",
 		program: "",
 		session: "",
-		status: "active",
+		status: "",
 		gender: "",
 		dateOfBirth: "",
 		email: "",
@@ -50,6 +57,31 @@ export default function NewStudentPage() {
 		city: "",
 		state: "",
 	});
+
+	// Fetch student data
+	useEffect(() => {
+		// In a real app, this would be an API call
+		setTimeout(() => {
+			setFormData({
+				regNumber: `2020-BS(CS)-E0${params.id}`,
+				rollNumber: `E0${params.id}`,
+				name: "Azad Khan",
+				fatherName: "Muhammad Khan",
+				cnicNo: "50000-9111111-7",
+				program: "BSCS",
+				session: "2020-2024",
+				status: "active",
+				gender: "Male",
+				dateOfBirth: "2002-05-15", // Stored in ISO format for the input
+				email: "azad.khan@example.com",
+				phone: "+92 300 1234567",
+				address: "123 University Avenue, Islamabad",
+				city: "Islamabad",
+				state: "Federal",
+			});
+			setLoading(false);
+		}, 500);
+	}, [params.id]);
 
 	// Handle input change
 	const handleChange = (
@@ -84,7 +116,7 @@ export default function NewStudentPage() {
 		setFormData((prev) => ({ ...prev, cnicNo: value }));
 	};
 
-	// Format date to dd/mm/yyyy
+	// Format date to dd/mm/yyyy for display
 	const formatDate = (dateString: string) => {
 		if (!dateString) return "";
 
@@ -94,13 +126,6 @@ export default function NewStudentPage() {
 		const year = date.getFullYear();
 
 		return `${day}/${month}/${year}`;
-	};
-
-	// Handle date change
-	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { id, value } = e.target;
-		// Store the original date format for the input field
-		setFormData((prev) => ({ ...prev, [id]: value }));
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {
@@ -131,27 +156,45 @@ export default function NewStudentPage() {
 		// Simulate API call
 		setTimeout(() => {
 			setIsSubmitting(false);
-			toast.success("Student added successfully!");
-			router.push("/dashboard/students");
+			toast.success("Student updated successfully!");
+			router.push(`/dashboard/students/${params.id}`);
 		}, 1500);
 	};
+
+	if (loading) {
+		return (
+			<div className="flex flex-col gap-6">
+				<div className="flex items-center gap-4">
+					<Button variant="ghost" size="icon" asChild>
+						<Link href={`/dashboard/students/${params.id}`}>
+							<ArrowLeft className="h-4 w-4" />
+						</Link>
+					</Button>
+					<h1 className="text-2xl font-bold">Loading Student...</h1>
+				</div>
+				<div className="flex items-center justify-center h-[400px]">
+					<div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="flex items-center gap-4">
 				<Button variant="ghost" size="icon" asChild>
-					<Link href="/dashboard/students">
+					<Link href={`/dashboard/students/${params.id}`}>
 						<ArrowLeft className="h-4 w-4" />
 					</Link>
 				</Button>
-				<h1 className="text-2xl font-bold">Add New Student</h1>
+				<h1 className="text-2xl font-bold">Edit Student</h1>
 			</div>
 
 			<Card>
 				<CardHeader>
 					<CardTitle>Student Information</CardTitle>
 					<CardDescription>
-						Enter the student&apos;s personal and academic
+						Update the student&apos;s personal and academic
 						information.
 					</CardDescription>
 				</CardHeader>
@@ -224,13 +267,13 @@ export default function NewStudentPage() {
 												<SelectValue placeholder="Select gender" />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="male">
+												<SelectItem value="Male">
 													Male
 												</SelectItem>
-												<SelectItem value="female">
+												<SelectItem value="Female">
 													Female
 												</SelectItem>
-												<SelectItem value="other">
+												<SelectItem value="Other">
 													Other
 												</SelectItem>
 											</SelectContent>
@@ -244,7 +287,7 @@ export default function NewStudentPage() {
 											id="dateOfBirth"
 											type="date"
 											value={formData.dateOfBirth}
-											onChange={handleDateChange}
+											onChange={handleChange}
 										/>
 										{formData.dateOfBirth && (
 											<p className="text-xs text-muted-foreground">
@@ -433,7 +476,9 @@ export default function NewStudentPage() {
 
 						<div className="flex justify-end gap-2">
 							<Button variant="outline" asChild>
-								<Link href="/dashboard/students">Cancel</Link>
+								<Link href={`/dashboard/students/${params.id}`}>
+									Cancel
+								</Link>
 							</Button>
 							<Button
 								type="submit"
@@ -447,7 +492,7 @@ export default function NewStudentPage() {
 								) : (
 									<>
 										<Save className="h-4 w-4" />
-										<span>Save Student</span>
+										<span>Update Student</span>
 									</>
 								)}
 							</Button>

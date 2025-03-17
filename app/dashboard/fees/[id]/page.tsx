@@ -9,14 +9,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { useParams } from "next/navigation";
 
-interface FeeDetailsPageProps {
-	params: {
-		id: string;
-	};
-}
+export default function FeeDetailsPage() {
+	const params = useParams<{ id: string }>();
 
-export default function FeeDetailsPage({ params }: FeeDetailsPageProps) {
 	// Mock fee record data
 	const feeRecord = {
 		id: params.id,
