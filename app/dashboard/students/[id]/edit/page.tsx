@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
 import { toast } from "sonner";
 
@@ -28,13 +28,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
-interface EditStudentPageProps {
-	params: {
-		id: string;
-	};
-}
-
-export default function EditStudentPage({ params }: EditStudentPageProps) {
+export default function EditStudentPage() {
+	const params = useParams<{ id: string }>()
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [loading, setLoading] = useState(true);
