@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import { ArrowLeft, Edit, Trash } from "lucide-react";
 
